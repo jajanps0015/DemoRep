@@ -2,7 +2,20 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Challenges.h"
 
+class Character2
+{
+public:
+    char ancestory[20];
+    char charClass[20];
+
+    void Display()
+    {
+        std::cout << "Character data : Ancestory = " << ancestory
+            << " and class = " << charClass << std::endl;
+    }
+};
 
 class Character
 {
@@ -26,14 +39,23 @@ public:
     }
 };
 
+void IOCharater();;
+void IOCharater2();
+
 int main()
+{
+    //IOCharater();
+    IOCharater2();
+}
+
+void IOCharater()
 {
     // just writing to file, no reading
     std::ofstream outputFile("binaryFile.dat", std::ios::binary);
     if (!outputFile)
     {
         std::cout << "Error opening file for write : ";
-        return 0;
+        return;
     }
     char enterMore = 'y';
     do
@@ -63,7 +85,7 @@ int main()
     if (!inputFile)
     {
         std::cout << "Error opening file for read : ";
-        return 0;
+        return;
     }
     /*inputFile.read(reinterpret_cast<char*>(&cinChar), sizeof(Character));
     cinChar.Display();*/
@@ -82,6 +104,60 @@ int main()
     }
 
     inputFile.close();
+    return;
+}
+
+void IOCharater2()
+{
+    // just writing to file, no reading
+    std::ofstream outputFile("binaryFile2.dat", std::ios::binary);
+    if (!outputFile)
+    {
+        std::cout << "Error opening file for write : ";
+        return;
+    }
+    char enterMore = 'y';
+    do
+    {
+
+        Character2 coutChar;
+
+        std::cout << "Enter ancestory : ";
+        std::cin >> coutChar.ancestory;
+
+        std::cout << "Enter class : ";
+        std::cin >> coutChar.charClass;
+
+
+        outputFile.write(reinterpret_cast<char*>(&coutChar), sizeof(coutChar));
+
+
+        std::cout << "Enter more : ";
+        std::cin >> enterMore;
+
+    } while (enterMore == 'y');
+
+    outputFile.close();
+
+    std::ifstream inputFile("binaryFile2.dat", std::ios::binary | std::ios::in);
+    inputFile.seekg(0);
+    if (!inputFile)
+    {
+        std::cout << "Error opening file for read : ";
+        return;
+    }
+
+    Character2 cinChar;
+
+    inputFile.read(reinterpret_cast<char*>(&cinChar), sizeof(cinChar));
+    while (!inputFile.eof()) //quit on EOF
+    {
+        cinChar.Display();
+        inputFile.read(reinterpret_cast<char*>(&cinChar), sizeof(cinChar));
+    }
+
+    inputFile.close();
+    return;
 }
 
 void iodemo()
