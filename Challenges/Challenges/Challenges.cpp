@@ -20,7 +20,7 @@ public:
 class Character
 {
 public:
-    const char* ancestory;
+    const char* ancestory; //C
     const char* charClass;
 
     Character()
@@ -70,9 +70,11 @@ void IOCharater()
 
         Character coutChar(anc.c_str(), cls.c_str());
 
+        
         outputFile.write(coutChar.ancestory, strlen(coutChar.ancestory) + 1);
         outputFile.write(coutChar.charClass, strlen(coutChar.charClass) + 1);
 
+        std::cout << "Object written to file " << std::endl;
 
         std::cout << "Enter more : ";
         std::cin >> enterMore;
@@ -100,6 +102,9 @@ void IOCharater()
         const char* cls = readClass.c_str();
 
         Character cinChar(anc, cls);
+
+        std::cout << "Object read from file " << std::endl;
+
         cinChar.Display();
     }
 
@@ -119,7 +124,6 @@ void IOCharater2()
     char enterMore = 'y';
     do
     {
-
         Character2 coutChar;
 
         std::cout << "Enter ancestory : ";
@@ -131,7 +135,7 @@ void IOCharater2()
 
         outputFile.write(reinterpret_cast<char*>(&coutChar), sizeof(coutChar));
 
-
+        std::cout << "Object written as object ref" << std::endl;
         std::cout << "Enter more : ";
         std::cin >> enterMore;
 
@@ -149,12 +153,22 @@ void IOCharater2()
 
     Character2 cinChar;
 
+
+    int recordIndex = 0;
+    std::cout << "Enter the record index to read : "; std::cin >> recordIndex;
+    
+    inputFile.seekg((recordIndex - 1) * sizeof(cinChar));
+    
+    std::cout << "Object read as object ref" << std::endl;
+
     inputFile.read(reinterpret_cast<char*>(&cinChar), sizeof(cinChar));
-    while (!inputFile.eof()) //quit on EOF
-    {
-        cinChar.Display();
-        inputFile.read(reinterpret_cast<char*>(&cinChar), sizeof(cinChar));
-    }
+    cinChar.Display();
+
+    //while (!inputFile.eof()) //quit on EOF
+    //{
+    //    cinChar.Display();
+    //    inputFile.read(reinterpret_cast<char*>(&cinChar), sizeof(cinChar));
+    //}
 
     inputFile.close();
     return;
