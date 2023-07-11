@@ -1,195 +1,100 @@
-#include <fstream>
+/*
+********** PART 1***********************************************************
+
+Swap Array elements
+Create an array that can hold n number of integers
+You can choose the size n on your own
+Get array elements from the user
+Display all array elements
+
+Now the user should be shown 2 options,
+[S]wap-elements	[L]eave
+
+if the user leaves, the program exits, if the user wants to "repeatedly" swap different elements,
+they should be asked to enter 2 positions where the elements need to be swapped.
+swap elements
+Display the updated array
+
+Sample output : For example, if you choose size n = 5, you want to swap elements at position 2 and 4
+
+Enter 5 integers to fill the array:
+2
+3
+9
+8
+1
+What would you like to do next : [S]wap-elements	[L]eave
+s
+Enter what elements you want to swap:
+Enter First Index : 2
+Enter Second Index : 4
+New array is :
+2
+8 // was 4th element before swap
+9
+3 // was 2nd element before swap
+1
+What would you like to do next : [S]wap-elements	[L]eave
+l
+*****Program exits***********
+*/
+
 #include <iostream>
-#include <string>
-#include <vector>
-#include "Challenges.h"
+#include <array>
 
-class Character2
-{
-public:
-    char ancestory[20];
-    char charClass[20];
-
-    void Display()
-    {
-        std::cout << "Character data : Ancestory = " << ancestory
-            << " and class = " << charClass << std::endl;
-    }
-};
-
-class Character
-{
-public:
-    const char* ancestory; //C
-    const char* charClass;
-
-    Character()
-        : ancestory("xxx"),
-        charClass("xxx")
-    {}
-
-    Character(const char* anc, const char* cls)
-        : ancestory(anc), charClass(cls)
-    {}
-
-    void Display()
-    {
-        std::cout << "Character data : Ancestory = " << ancestory
-            << " and class = " << charClass << std::endl;
-    }
-};
-
-void IOCharater();;
-void IOCharater2();
+using namespace std;
 
 int main()
-{
-    //IOCharater();
-    IOCharater2();
-}
+{   
+    //std::array<int, 6> arr2;
 
-void IOCharater()
-{
-    // just writing to file, no reading
-    std::ofstream outputFile("binaryFile.dat", std::ios::binary);
-    if (!outputFile)
-    {
-        std::cout << "Error opening file for write : ";
-        return;
-    }
-    char enterMore = 'y';
-    do
-    {
-        std::string anc, cls;
+    //char userChoice = 's';
+    //
+    //
+    //int arr1[5] = { 2,3,9,8,1 };//0,1,2,3,4
 
-        std::cout << "Enter ancestory : ";
-        std::cin >> anc;
-
-        std::cout << "Enter class : ";
-        std::cin >> cls;
-
-        Character coutChar(anc.c_str(), cls.c_str());
-
-        
-        outputFile.write(coutChar.ancestory, strlen(coutChar.ancestory) + 1);
-        outputFile.write(coutChar.charClass, strlen(coutChar.charClass) + 1);
-
-        std::cout << "Object written to file " << std::endl;
-
-        std::cout << "Enter more : ";
-        std::cin >> enterMore;
-
-    } while (enterMore == 'y');
-
-    outputFile.close();
-
-    std::ifstream inputFile("binaryFile.dat", std::ios::binary | std::ios::in);
-    if (!inputFile)
-    {
-        std::cout << "Error opening file for read : ";
-        return;
-    }
-    /*inputFile.read(reinterpret_cast<char*>(&cinChar), sizeof(Character));
-    cinChar.Display();*/
-    while (!inputFile.eof())
-    {
-        std::string readAnc;
-        std::getline(inputFile, readAnc, '\0');
-        const char* anc = readAnc.c_str();
-
-        std::string readClass;
-        std::getline(inputFile, readClass, '\0');
-        const char* cls = readClass.c_str();
-
-        Character cinChar(anc, cls);
-
-        std::cout << "Object read from file " << std::endl;
-
-        cinChar.Display();
-    }
-
-    inputFile.close();
-    return;
-}
-
-void IOCharater2()
-{
-    // just writing to file, no reading
-    std::ofstream outputFile("binaryFile2.dat", std::ios::binary);
-    if (!outputFile)
-    {
-        std::cout << "Error opening file for write : ";
-        return;
-    }
-    char enterMore = 'y';
-    do
-    {
-        Character2 coutChar;
-
-        std::cout << "Enter ancestory : ";
-        std::cin >> coutChar.ancestory;
-
-        std::cout << "Enter class : ";
-        std::cin >> coutChar.charClass;
-
-
-        outputFile.write(reinterpret_cast<char*>(&coutChar), sizeof(coutChar));
-
-        std::cout << "Object written as object ref" << std::endl;
-        std::cout << "Enter more : ";
-        std::cin >> enterMore;
-
-    } while (enterMore == 'y');
-
-    outputFile.close();
-
-    std::ifstream inputFile("binaryFile2.dat", std::ios::binary | std::ios::in);
-    inputFile.seekg(0);
-    if (!inputFile)
-    {
-        std::cout << "Error opening file for read : ";
-        return;
-    }
-
-    Character2 cinChar;
-
-
-    int recordIndex = 0;
-    std::cout << "Enter the record index to read : "; std::cin >> recordIndex;
-    
-    inputFile.seekg((recordIndex - 1) * sizeof(cinChar));
-    
-    std::cout << "Object read as object ref" << std::endl;
-
-    inputFile.read(reinterpret_cast<char*>(&cinChar), sizeof(cinChar));
-    cinChar.Display();
-
-    //while (!inputFile.eof()) //quit on EOF
+    //do
     //{
-    //    cinChar.Display();
-    //    inputFile.read(reinterpret_cast<char*>(&cinChar), sizeof(cinChar));
-    //}
+    //    std::cout << "Array before swapping elements : " << std::endl;
+    //    for (size_t i = 0; i < 5; i++)
+    //    {
+    //        std::cout << arr1[i] << ", ";
+    //    }
 
-    inputFile.close();
-    return;
-}
+    //    std::cout << "\nWhat would you like to do next : \n[S]wap-elements	[L]eave" 
+    //        << std::endl;
+    //    std::cin >> userChoice;
 
-void iodemo()
-{
-    //char ch = 'x';
-    //int j = 77;
-    //double d = 6.02;
-    //string str1 = "Kafka"; //strings without
-    //string str2 = "Proust"; // embedded spaces
-    //ofstream outfile("fdata.txt"); //create ofstream object
+    //    if (userChoice == 's')
+    //    {
+    //        int index1 = -1, index2 = -1;
+    //        std::cout << "Enter what elements you want to swap : " << std::endl;
+    //        while (index1 < 0 || index1 > 4)
+    //        {
+    //            std::cout << "Enter First Index : ";
+    //            std::cin >> index1;
+    //        }
 
-    //outfile << ch //insert (write) data
-    //    << j
-    //    << " " //needs space between numbers
-    //    << d
-    //    << str1
-    //    << " " //needs spaces between strings
-    //    << str2;
-    //cout << "File written\n";
+    //        while (index2 < 0 || index2 > 4)
+    //        {
+    //            std::cout << "Enter Second Index : ";
+    //            std::cin >> index2;
+    //        }
+
+    //        int temp = arr1[index1];
+    //        arr1[index1] = arr1[index2];
+    //        arr1[index2] = temp;
+    //        
+    //        std::cout << "Array after swapping elements : " << std::endl;
+    //        for (size_t i = 0; i < 5; i++)
+    //        {
+    //            std::cout << arr1[i] << ", ";
+    //        }
+    //    }
+
+    //} while (userChoice != 'l');
+
     //return 0;
+    
+    
 }
